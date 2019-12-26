@@ -1,0 +1,59 @@
+{% extends 'store/basic.html' %}
+
+{% block title %} {{product.product_name}} - Lifestyle Store {% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row my-4">
+    <div class="col-md-4">
+        <div class="row">
+            <img src="/media/{{product.image}}" width="280px" height="375px">
+        </div>
+        <div class="row my-3">
+            <button class="btn btn-primary mx-4" >Buy Now</button>
+            <button class="btn btn-primary" >Add to Cart</button>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h5>{{product.product_name}}</h5>
+        <p><b>Rs. {{product.price}}</b></p>
+        <p>{{product.desc}}</p>
+    </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+   <script>
+       console.log("working");
+       if(localStorage.getItem('cart')==null){
+       var cart={};
+       }
+       else{
+       cart=JSON.parse(localStorage.getItem('cart'));
+       let items = Object.values(cart);
+       let total_items=0;
+       for(var i=0;i<Object.keys(cart).length;i++){
+         total_items = total_items + items[i];
+       }
+       document.getElementById('cart').innerHTML = total_items;
+       }
+
+       $('.cart').click(function(){
+         console.log('clicked');
+         var idstr=this.id.toString();
+         console.log(idstr);
+         if (cart[idstr]!=undefined){
+           cart[idstr]+=1;
+         }
+         else{
+           cart[idstr]=1;
+         }
+         console.log(cart);
+         localStorage.setItem('cart', JSON.stringify(cart));
+       });
+
+       $('#popcart').popover();
+
+       document.getElementById('popcart').setAttribute('data-content','<h5>Your Shopping Cart</h5>');
+   </script>
+{% endblock %}

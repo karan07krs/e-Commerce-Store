@@ -1,0 +1,54 @@
+{% extends 'store/basic.html' %}
+
+{% block title %} Contact Us - Lifestyle Store {% endblock %}
+{% block body %}
+     <div class="container my-3">
+     <h3>Contact Our Team</h3>
+                <form action="/store/contact/" method="post">
+                  {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="name" class="form-control" id="name" placeholder="Enter your Name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Your Email</label>
+                        <input type="email" class="form-control" id="cemail" placeholder="Enter your Email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Your Phone Number (with country code)</label>
+                        <input type="text" class="form-control" id="phone" placeholder="Enter your Phone Number"
+                            name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Your Query</label>
+                        <textarea type="text" class="form-control" id="message" placeholder="Please tell us how we can help you" name="description"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                </form>
+     </div>
+
+
+{% endblock %}
+
+{% block js%}
+<script>
+var sum=0;
+if (localStorage.getItem('cart') == null) {
+    var cart = {};
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+}
+for (var item in cart) {
+        let qty = cart[item][0];
+        sum = sum + qty;
+    }
+
+document.getElementById('cart').innerHTML = sum;
+{% if contacted %}
+  alert("Thank You for contacting with us. We will reach you within 24 hours.");
+  document.location = '/store';
+{% endif %}
+
+</script>
+{% endblock %}
